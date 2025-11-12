@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <link rel="icon" type="image/svg+xml" href=" https://toppng.com/uploads/preview/stump-clipart-cricket-bat-bat-and-ball-11563308319tbghlyhez9.png">
+   <title>Bat Ball Stump</title>
+    <style>
+         body {     
+     font-family: Arial, sans-serif;
+     font-size: 24px;
+     background-color: lightgray;
+     color: #333;
+     text-align: center;
+     padding: 20px;
+     margin: auto;
+     padding: auto;
+    }
+    button {
+     font-size: 24px;
+     margin: 10px;
+     padding: 10px 20px;
+     border: none;
+     border-radius: 5px;
+     background-color: #b1b1b1;
+     color: rgb(4, 4, 4);
+     cursor: pointer;
+     border-radius: 40%;
+   margin: 25px;
+   padding: 25px;
+   box-shadow: 0px 0px 10px black;
+    }
+    .button-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-radius: 50%;
+    } 
+    #resetbtn {
+     background-color: #f44336;
+        color: white;
+        margin-bottom: 90px;
+        border-radius: 10%;
+      }
+      #resetbtn:hover{
+        background-color: #da190b;
+        color: #fff;
+        
+      }
+    button:hover {
+     background-color: #6c6c6c;
+     color:#fff;
+    }
+   .button-image {
+     height: 110px;
+     width: 110px;
+    }
+    @media (max-width: 500px) {
+        button{
+        font-size: 18px;
+        margin: 5px;
+        padding: 5px 10px;
+        
+        }
+        .button-image {
+     height: 75px;
+     width: 75px;
+     }
+     #resetbtn {
+        margin: 50px 0px;
+        font-size: 28px;
+        border-radius: 25%;
+      }
+      h2{
+        font-size: 20px;
+      }
+    }
+
+    </style>    
+</head>
+<body >
+    <h1>Bat Ball Stump</h1>
+    <p>Welcome to the Bat Ball Stump game! Choose your option below to play against the computer.</p>
+    <div>
+        
+        <button onClick=" 
+          computerChoice= generateComputerChoice () ;
+          game (computerChoice,'Bat');
+            showResult(computerChoice,'Bat',result);
+          "><img src="https://static.vecteezy.com/system/resources/previews/008/513/890/original/cricket-bat-illustration-png.png" alt="bat-img" class="button-image"> </button> 
+
+         <button  onClick=" 
+           computerChoice= generateComputerChoice () ;
+           game (computerChoice,'Ball');
+          showResult(computerChoice,'Ball',result);
+           "><img src="https://pngimg.com/uploads/cricket/cricket_PNG88.png" alt="ball-img" class="button-image"></button>
+
+        <button  onClick=" 
+           computerChoice= generateComputerChoice () ;
+           game (computerChoice,'Stump');
+           showResult(computerChoice,'Stump',result);
+            "><img src="https://www.pngarts.com/files/2/Cricket-Stumps-PNG-Pic.png" alt="stump-img" class="button-image"></button>
+          
+          <h4 class="userChoice"></h4>
+            <h4 class="computerChoice"></h4>
+            <h4 class="result"></h4>
+            <h2 class="score"></h2>
+
+            <button id="resetbtn" onClick="
+           localStorage.removeItem('score');
+          resetScore();        
+          showResult('','','','');
+            ">Reset Game</button>
+    </div>
+    <script>
+        let scorestr = localStorage.getItem('score');
+        let score;
+        function resetScore(scoreStr) {
+           score = scoreStr ? JSON.parse(scoreStr) :
+            { wins : 0, losses : 0,  ties : 0
+                };
+        }
+        score = JSON.parse(scorestr) ||  { wins : 0, losses : 0,  ties : 0
+            };
+
+        function generateComputerChoice() {
+            let randomNumber = Math.random()*3;
+            if( randomNumber > 0 && randomNumber <= 1){
+                return 'Bat'; 
+            }
+            else if( randomNumber > 1 && randomNumber <= 2){
+                return 'Ball';
+            }else {
+                return 'Stump'; 
+            }
+         }
+         let computerChoice= '';
+         let userChoice= '';
+         let result;
+        function game (computerChoice, userChoice){
+            
+            if (computerChoice === userChoice ){
+                result = `It's a tie`;
+                score.ties ++;
+            }else if (
+                (computerChoice === 'Bat' && userChoice === 'Ball') || (computerChoice === 'Ball' && userChoice === 'Stump') || (computerChoice === 'Stump' && userChoice === 'Bat')
+            ) {
+                result = `Computer wins`;
+                score.losses ++;
+            } else {
+                result = `You win`;
+                score.wins ++;
+            }
+            return result;
+        }
+        function showResult(computerChoice, userChoice , result){
+            localStorage.setItem('score', JSON.stringify(score));
+document.querySelector('.userChoice').innerText = `You chose:- ${userChoice}`;
+document.querySelector('.computerChoice').innerText = `Computer chose:- ${computerChoice}`;
+document.querySelector('.result').innerText =`Result :- ${ result}`;
+document.querySelector('.score').innerText = ` score :- ${score.wins} Wins, ${score.losses} Losses, ${score.ties} Ties`;  
+        }
+   </script>
+</body>
+</html>
